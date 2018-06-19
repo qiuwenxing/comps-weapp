@@ -38,7 +38,9 @@ export default class List extends wepy.page {
 | @pullUp.user|    function | 上拉事件 |
 
 方法
->以下所有方法都采用[wepy组件通信](https://tencent.github.io/wepy/document.html#/?id=%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E4%B8%8E%E4%BA%A4%E4%BA%92)的方式调用，其他框架自行参考对应的组件通信调用方法
+>以下所有方法都采用[wepy组件通信](https://tencent.github.io/wepy/document.html#/?id=%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E4%B8%8E%E4%BA%A4%E4%BA%92)的方式调用，其他框架自行参考对应的组件通信调用方法。
+
+
 | 	方法名     	|   备注  		|
 | 	:--------		|	:-------- 	|
 | 	stop()			| 关闭下拉刷新Loading |
