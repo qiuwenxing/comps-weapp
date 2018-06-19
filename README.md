@@ -75,16 +75,16 @@ export default class List extends wepy.page {
 	            this.$invoke('scroll', 'stopLoad');
 	        });
 	    }
-    };
+    	};
 	//页面初始化
 	onLoad(){
 		//显示loading
 		this.$invoke('scroll', 'startLoad');
 		//请求第一页数据
-        this.loadData(true).then(() => {
-	        //数据请求完成后需要调用该方法结束loading
-            this.$invoke('scroll', 'stopLoad');
-        });
+		this.loadData(true).then(() => {
+			//数据请求完成后需要调用该方法结束loading
+		    this.$invoke('scroll', 'stopLoad');
+		});
 	}
 	//加载数据
 	loadData(reset = false) {
