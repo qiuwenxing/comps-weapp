@@ -92,4 +92,3 @@ export default class List extends wepy.page {
 	}
 }
 ```
-
