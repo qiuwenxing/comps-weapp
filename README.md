@@ -1,32 +1,30 @@
 # 小程序下拉刷新、上拉加载
 
----
->注意：该组件采用wepy小程序框架编写，如需使用标准版小程序代码，请下载 [wepy](https://tencent.github.io/wepy/)创建一个新项目将该组件复制到项目中使用wepy编译，编译后dist目录下的同名文件夹即是标准版的小程序代码。
-
 ## 使用说明
 
-在页面或组件中的components下引入scroll
-``` javascript
-import wepy from 'wepy';
-import Scroll from '../../../components/scroll/scroll';/*假如组件放在这个目录*/
-
-export default class List extends wepy.page {
-	components = {
-		scroll: Scroll
-	};
-
-	methods = {
-		//下拉刷新
-		onPullDown:() => { },
-		//上拉加载更多
-		onPullUp:() => { }
-	};
+在页面或组件中json文件的usingComponents下引入scroll
+``` json
+usingComponents:{
+	/*假设组件放在这个路径*/
+	"scroll":'/lib/components/scroll/index'
 }
+```
+``` javascript
+Page({
+	//下拉刷新
+	onPullDown(){
+		//TODO数据方法
+	},
+	//上拉加载更多
+	onPullUp(){
+		//TODO数据方法
+	}
+})
 ```
 在template中使用
 ```htmlbars
 	<template>
-		<scroll open="all" @pullDown.user="onPullDown" @pullUp.user="onPullUp">
+		<scroll id="scroll" open="all" bind:pulldown="onPullDown" bind:pullup="onPullUp">
 			<!-- 这里写你的列表代码 -->
 		</scroll>
 	</template>
@@ -34,61 +32,67 @@ export default class List extends wepy.page {
 | 参数名     |    类型  |备注  |
 | :-------- | :--------: |:-- |
 | open		| up / down / all |开启哪个方向的事件(up:下拉事件,down:上拉事件,all:两者都开启)|
-| @pullDown.user|   function | 下拉事件|
-| @pullUp.user|    function | 上拉事件 |
+| id		| string | 通过this.selectComponent('#scroll')来获取组件对象（下拉刷新或上拉加载处理时调用组件对象的startLoad()和stopLoad()来显示和隐藏loading）
+| bind:pulldown|   function | 下拉事件|
+| bind:pullup|    function | 上拉事件 |
 
-方法
->以下所有方法都采用[wepy组件通信](https://tencent.github.io/wepy/document.html#/?id=%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E4%B8%8E%E4%BA%A4%E4%BA%92)的方式调用，其他框架自行参考对应的组件通信调用方法。
+组件方法
 
-
-| 	方法名     	|   备注  		|
-| 	:--------		|	:-------- 	|
-| 	stop()			| 关闭下拉刷新Loading |
+| 	方法名     |   备注  	|
+| :-------- | :--------:  |
+| 	stop()		| 关闭下拉刷新Loading |
 | 	startLoad()	|  显示上拉Loading（也可以在页面第一个加载数据时调用） |
 | 	stopLoad() 	|关闭上拉Loading,配合startLoad()使用	|
 | 	noData() 		| 在列表底部显示**暂无更多内容**(注意该方法只是显示暂无更多内容,是否可以上拉需要自己在上拉事件中处理)	|
 
-```javascript
-import wepy from 'wepy';
-import Scroll from '../../../components/scroll/scroll';/*假如组件放在这个目录*/
+组件监听事件(事件前面记得加bind)
 
-export default class List extends wepy.page {
-	components = {
-		scroll: Scroll
-	};
-	methods = {
-		//下拉刷新
-	    onPullDown: () => {
-		    //请求第一页数据
-	        this.loadData(true).then(() => {
-		        //数据请求完成后需要调用该方法结束loading
-	            this.$invoke('scroll', 'stop');
-	        });
-	    },
-	    //上拉加载更多
-	    onPullUp: () => {
-		    //显示loading
-	        this.$invoke('scroll', 'startLoad');
-	        //加载下一页数据
-	        this.loadData().then(() => {
-		        //数据请求完成后需要调用该方法结束loading
-	            this.$invoke('scroll', 'stopLoad');
-	        });
-	    }
-    	};
+| 	事件名称     	|   返回值  		|备注|
+| :-------- | :--------: |:-- |
+|	scroll	|同scroll-view的bindscroll	|返回当前scroll的混动条对象|
+|	pulldown|null|触发下拉刷新监听|
+|	pullup|null|触发上拉加载更多监听|
+
+样例代码仅供参考
+```javascript
+let component = null;
+Page({
+	data:{
+		list: []
+	},
 	//页面初始化
 	onLoad(){
+		//获取组件对象
+		component = this.selectComponent('#scroll');
 		//显示loading
-		this.$invoke('scroll', 'startLoad');
+		component.startLoad();
 		//请求第一页数据
 		this.loadData(true).then(() => {
 			//数据请求完成后需要调用该方法结束loading
-		    this.$invoke('scroll', 'stopLoad');
+			component.stopLoad();
+		});
+	},
+	//加载数据
+	loadData:function(reset = false) {
+		...
+	},
+	//下拉刷新
+	onPullDown:function() {
+		//请求第一页数据
+		this.loadData(true).then(() => {
+			//数据请求完成后需要调用该方法结束loading
+			component.stop();
+		});
+	},
+	//上拉加载更多
+	onPullUp:function() {
+		//显示loading
+		component.startLoad();
+		//加载下一页数据
+		this.loadData().then(() => {
+			//数据请求完成后需要调用该方法结束loading
+			component.stopLoad();
 		});
 	}
-	//加载数据
-	loadData(reset = false) {
-		...
-	}
-}
+})
 ```
