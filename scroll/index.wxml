@@ -1,0 +1,26 @@
+<scroll-view class="i-class scroll-v" scroll-y="{{isScroll}}" enable-back-to-top scroll-with-animation bindscrolltolower="pullUp"
+  bindscroll="onScroll">
+  <view class="scroll-container" bindtouchstart="startHandle" bindtouchmove="moveHandle" bindtouchend="endHandle">
+    <view wx:if="{{open == 'down' || open == 'all'}}" class="dropload-up" style="height:{{domHeight}}px; transition: all {{transitionTime}}ms;">
+      <view class="dropload-refresh" hidden="{{upStatus != 'refresh' && upStatus != 'update'}}">
+        <image class="animate {{upStatus == 'update' ? 'reverse' : ''}}" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTI5MzczMjI4MjM0IiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQwNTMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PC9zdHlsZT48L2RlZnM+PHBhdGggZD0iTTQ4OC43MjcyNzMgMjQyLjc1NzgxOHY0NjkuMjQ4bC0xNzAuNTY1ODE4LTE4NC43NjIxODJhMzQuOTA5MDkxIDM0LjkwOTA5MSAwIDEgMC01MS4yOTMwOTEgNDcuMzZsMjMxLjEyMTQ1NCAyNTAuNDE0NTQ2YTM0Ljk1NTYzNiAzNC45NTU2MzYgMCAwIDAgNTEuMjkzMDkxIDBsMjMxLjEyMTQ1NS0yNTAuNDE0NTQ2YTM0Ljg2MjU0NSAzNC44NjI1NDUgMCAwIDAtMS45NTQ5MDktNDkuMzM4MTgxIDM0LjkwOTA5MSAzNC45MDkwOTEgMCAwIDAtNDkuMzM4MTgyIDEuOTc4MTgxTDU1OC41NDU0NTUgNzEyLjAyOTA5MVYyNDIuNzM0NTQ1YTM0LjkwOTA5MSAzNC45MDkwOTEgMCAxIDAtNjkuODE4MTgyIDAiIGZpbGw9IiM3OTc5NzkiIHAtaWQ9IjQwNTQiPjwvcGF0aD48L3N2Zz4=" />
+        <text hidden="{{upStatus!='refresh'}}">下拉刷新</text>
+        <text hidden="{{upStatus!='update'}}">释放刷新</text>
+      </view>
+      <view class="dropload-load" hidden="{{upStatus != 'load'}}">
+        <image class="dropload-runing" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTI4NzA4MzYwNzU5IiBjbGFzcz0iaWNvbiIgc3R5bGU9IiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjEyMTQ3IiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwvc3R5bGU+PC9kZWZzPjxwYXRoIGQ9Ik0xNDYuNyA2MjQuOGMtMTEuMyAwLTIxLjYtNy43LTI0LjMtMTkuMi0xNS43LTY1LjgtMTQuNS0xMzUuMSAzLjMtMjAwLjQgMTguNC02Ny4zIDU0LjMtMTI5LjEgMTAzLjktMTc4LjcgMzMuMi0zMy4yIDcxLjQtNjAuMSAxMTMuNS03OS45IDQwLjctMTkuMSA4NC4xLTMxLjMgMTI5LjEtMzYgOTAtOS41IDE4MS41IDExLjcgMjU3LjYgNTkuNiAxMS43IDcuNCAxNS4yIDIyLjggNy44IDM0LjUtNy40IDExLjctMjIuOCAxNS4yLTM0LjUgNy44LTE0MC41LTg4LjUtMzIwLjctNjguMi00MzguMiA0OS4zQzE3Ny40IDM0OS4zIDE0Mi40IDQ3My41IDE3MSA1OTRjMy4yIDEzLjQtNS4xIDI2LjktMTguNSAzMC4xLTEuOSAwLjUtMy45IDAuNy01LjggMC43ek01MTUuNSA5MTUuNGMtNzYgMC0xNTEuMS0yMS40LTIxNS4zLTYxLjktMTEuNy03LjQtMTUuMi0yMi44LTcuOC0zNC41IDcuNC0xMS43IDIyLjgtMTUuMiAzNC41LTcuOEM0NjcuMyA4OTkuOCA2NDcuNSA4NzkuNSA3NjUgNzYyYzg3LjItODcuMiAxMjIuNC0yMTEuMSA5NC4xLTMzMS4zLTMuMi0xMy40IDUuMi0yNi45IDE4LjYtMzAuMSAxMy40LTMuMiAyNi45IDUuMiAzMC4xIDE4LjYgMTUuNSA2NS43IDE0LjIgMTM0LjgtMy42IDE5OS45LTE4LjQgNjcuMS01NC4zIDEyOC44LTEwMy44IDE3OC4zLTMzLjIgMzMuMi03MS40IDYwLjEtMTEzLjUgNzkuOS00MC43IDE5LjEtODQuMSAzMS4zLTEyOS4xIDM2LTE0LjEgMS40LTI4LjIgMi4xLTQyLjMgMi4xeiIgcC1pZD0iMTIxNDgiIGZpbGw9IiM5OTk5OTkiPjwvcGF0aD48cGF0aCBkPSJNNjUxLjggMjczLjNjLTExIDAtMjEuMS03LjQtMjQuMS0xOC41LTMuNi0xMy4zIDQuMy0yNyAxNy43LTMwLjZsOTEuNC0yNC41LTI0LjUtOTEuNGMtMy42LTEzLjMgNC4zLTI3IDE3LjctMzAuNiAxMy4zLTMuNiAyNyA0LjMgMzAuNiAxNy43bDMxIDExNS41YzMuNiAxMy4zLTQuMyAyNy0xNy43IDMwLjZsLTExNS41IDMxYy0yLjMgMC41LTQuNSAwLjgtNi42IDAuOHoiIHAtaWQ9IjEyMTQ5IiBmaWxsPSIjOTk5OTk5Ij48L3BhdGg+PHBhdGggZD0iTTI5MC43IDk0MS44Yy0xMS44IDAtMjIuMy04LjQtMjQuNi0yMC41bC0yMS43LTExNy42Yy0xLjItNi41IDAuMi0xMy4zIDQtMTguN3M5LjUtOS4yIDE2LjEtMTAuNGwxMTcuNi0yMS43YzEzLjYtMi41IDI2LjYgNi41IDI5LjEgMjBzLTYuNSAyNi42LTIwIDI5LjFsLTkzIDE3LjIgMTcuMiA5M2MyLjUgMTMuNi02LjUgMjYuNi0yMCAyOS4xLTEuNiAwLjQtMy4yIDAuNS00LjcgMC41eiIgcC1pZD0iMTIxNTAiIGZpbGw9IiM5OTk5OTkiPjwvcGF0aD48L3N2Zz4=" />
+        <text>加载中...</text>
+      </view>
+    </view>
+    <slot></slot>
+    <block wx:if="{{open == 'up' || open == 'all'}}">
+      <view hidden="{{downStatus == ''}}" class="dropload-down i-load-more {{ downStatus == 'load' ? '' : 'i-load-more-line' }}">
+        <view class="i-load-more-loading" wx:if="{{ downStatus == 'load' }}"></view>
+        <view class="i-load-more-tip">
+          <view wx:if="{{ downStatus == 'noData' }}">暂无更多内容</view>
+          <view wx:elif="{{ downStatus == 'load' }}">正在加载</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</scroll-view>
