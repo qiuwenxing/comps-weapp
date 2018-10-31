@@ -1,0 +1,21 @@
+<view hidden="{{!display}}" class="search_contianer i-class" animation="{{animationData}}">
+  <view class="search_header">
+    <view class="search_area" style="border-radius:{{radius}}rpx">
+      <icon class="search-icon" type="search" size="16"></icon>
+      <input value="{{keyword}}" focus="{{focus}}" placeholder="{{placeholder}}" confirm-type="search" bind:confirm="confirmSearch" />
+      <view wx:if="{{form.keyword.length > 0}}" class="search_icon_clear" bind:tap="clearInput">
+        <icon type="clear" size="16"></icon>
+      </view>
+    </view>
+    <view class="search_cancel" bind:tap="hide">取消</view>
+  </view>
+  <view class="search_history" hidden="{{history.length == 0}}">
+    <view class="history_head">
+      <label class="history_title">最近搜索</label>
+      <view class="history_clean" bind:tap="clean"></view>
+    </view>
+    <view class="history_content">
+      <view class="search_navigator" wx:for="{{history}}" wx:key="index" bind:tap="selectSearch" data-i="{{index}}">{{item}}</view>
+    </view>
+  </view>
+</view>
