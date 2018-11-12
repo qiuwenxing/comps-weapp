@@ -1,3 +1,4 @@
+let arrowAnimation = null;
 Component({
   externalClasses: ['i-class'],
   properties: {
@@ -11,8 +12,8 @@ Component({
   },
   data: {
     /**
-         * 刷新次数
-         */
+     * 刷新次数
+     */
     refreshCount: 0,
     /**
      * 上方是否插入DOM
@@ -61,7 +62,7 @@ Component({
     /**
      * 拉动刷新距离(px)
      */
-    distance: 60,
+    distance: 80,
     /**
      * loading区域高度
      */
@@ -82,7 +83,11 @@ Component({
      * 动画过渡时间
      */
     transitionTime: 0,
-    isScroll: true
+    isScroll: true,
+    /**
+     * 箭头动画
+     */
+    arrowAnimationData: null
   },
   methods: {
     onScroll(e) {
@@ -111,7 +116,7 @@ Component({
           let touche = e.touches[0];
           let pageY = touche.pageY;
           let moveY = pageY - this.data.startY;
-          let { transitionTime, touchScrollTop, isLockUp, domHeight, upInsertDOM, upStatus, distance } = this.data;
+          let { transitionTime, touchScrollTop, isLockUp, domHeight, upInsertDOM, upStatus, distance, arrowAnimationData, loadingHeight } = this.data;
           if (moveY > 0) {
             direction = 'down';
           } else if (moveY < 0) {
@@ -122,6 +127,7 @@ Component({
           if (touchScrollTop <= 0 && direction == 'down' && !isLockUp) {
             isScroll = false;
             let offsetY = 0;
+            let arrowAngle = 0;
             // 如果加载区没有DOM
             if (!upInsertDOM) {
               upInsertDOM = true;
@@ -143,12 +149,19 @@ Component({
               offsetY = distance + distance * 0.5 + (absMoveY - distance * 2) * 0.2;
             }
             domHeight = offsetY * 0.7;//移动距离衰减
+            //箭头全部显示出来才开始运动
+            if (absMoveY > loadingHeight) {
+              let arrowY = absMoveY - loadingHeight;
+              let arrowHeight = distance - loadingHeight;
+              arrowAngle = (arrowY > arrowHeight ? arrowHeight : arrowY) / arrowHeight * 180;
+            }
+            arrowAnimationData = arrowAnimation.rotateZ(arrowAngle).step().export();
           } else {
             isScroll = true;
             domHeight = 0;
             moveY = 0;
           }
-          this.setData({ isScroll, domHeight, moveY, direction, upInsertDOM, upStatus, transitionTime });
+          this.setData({ isScroll, domHeight, moveY, direction, upInsertDOM, upStatus, transitionTime, arrowAnimationData });
         }
       }
     },
@@ -235,33 +248,38 @@ Component({
     /**
      * 锁定
      */
-    lock(directionP) {
-      let { direction, isLockDown, isLockUp } = this.data;
-      if (directionP === undefined) {
-        switch (direction) {
-          case 'up':
-            isLockDown = true;
-            break;
-          case 'down':
-            isLockUp = true;
-            break;
-          default:
-            isLockUp = true;
-            isLockDown = true;
-        }
-      } else if (directionP == 'up') {
-        isLockUp = true;
-      } else if (directionP == 'down') {
-        isLockDown = true;
-        direction = 'up';
+    lock(direction) {
+      let { isLockDown, isLockUp } = this.data;
+      switch (direction) {
+        case 'up':
+          isLockUp = true;
+          break;
+        case 'down':
+          isLockDown = true;
+          break;
+        default:
+          isLockUp = true;
+          isLockDown = true;
       }
-      this.setData({ direction, isLockDown, isLockUp });
+      this.setData({ isLockDown, isLockUp });
     },
     /**
      * 解锁
      */
-    unlock() {
-      this.setData({ isLockUp: false, isLockDown: false, direction: 'up' });
+    unlock(direction) {
+      let { isLockDown, isLockUp } = this.data;
+      switch (direction) {
+        case 'up':
+          isLockUp = false;
+          break;
+        case 'down':
+          isLockDown = false;
+          break;
+        default:
+          isLockUp = false;
+          isLockDown = false;
+      }
+      this.setData({ isLockDown, isLockUp });
     },
     /**
      * 重置
@@ -279,5 +297,12 @@ Component({
         }, 300);
       }
     }
+  },
+  created() {
+    arrowAnimation = wx.createAnimation({
+      duration: 0,
+      timingFunction: 'ease',
+      transformOrigin: "50% 50%"
+    });
   }
 })
