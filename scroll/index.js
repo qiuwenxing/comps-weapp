@@ -1,4 +1,4 @@
-let arrowAnimation = null;
+let arrowAnimation = null
 Component({
   externalClasses: ['i-class'],
   properties: {
@@ -11,6 +11,14 @@ Component({
     }
   },
   data: {
+    /**
+     * 添加返回顶部事件，当评论数据多了以后，点击返回顶部到达顶部
+     */
+    scrollTop: {
+      scroll_top: 0,
+      goTop_show: false
+    },
+
     /**
      * 刷新次数
      */
@@ -91,77 +99,107 @@ Component({
   },
   methods: {
     onScroll(e) {
-      this.setData({ scroll: e.detail.scrollTop });
-      this.triggerEvent('scroll', e);
+      this.setData({ scroll: e.detail.scrollTop })
+      this.triggerEvent('scroll', e)
+      // 这是返回顶部触发的事件,当滚动到300的高度时会触发gotop的显示条件
+      console.log(e.detail)
+      if (e.detail.scrollTop > 300) { // 触发gotop的显示条件
+        this.setData({
+          'scrollTop.goTop_show': true
+        })
+        console.log(this.data.scrollTop)
+      } else {
+        this.setData({
+          'scrollTop.goTop_show': false
+        })
+      }
     },
+    /**
+     * 
+     * 这是“ 返回顶部的触发事件”, 主要触发image上的catchtap事件
+     */
+    goTopFun: function (e) {
+      var _top = this.data.scrollTop.scroll_top; // 发现设置scroll-top值不能和上一次的值一样，否则无效，所以这里加了个判断
+      if (_top == 1) {
+        _top = 0
+      } else {
+        _top = 0
+      }
+      this.setData({
+        'scrollTop.scroll_top': _top
+      })
+      console.log('----')
+      console.log(this.data.scrollTop)
+    },
+
     /**
      * 开始拖动
      */
     startHandle(e) {
       if (!this.data.loading && (this.data.open == 'down' || this.data.open == 'all')) {
-        let touche = e.touches[0];
-        let startY = touche.pageY;
-        let touchScrollTop = this.data.scroll;
-        this.setData({ startY, touchScrollTop });
+        let touche = e.touches[0]
+        let startY = touche.pageY
+        let touchScrollTop = this.data.scroll
+        this.setData({ startY, touchScrollTop})
       }
     },
     /**
      * 正在拖动
      */
     moveHandle(e) {
-      let { loading, open, direction, isScroll } = this.data;
+      let { loading, open, direction, isScroll } = this.data
       if (!loading) {
-        //下拉刷新动作
+        // 下拉刷新动作
         if (open == 'down' || open == 'all') {
-          let touche = e.touches[0];
-          let pageY = touche.pageY;
-          let moveY = pageY - this.data.startY;
-          let { transitionTime, touchScrollTop, isLockUp, domHeight, upInsertDOM, upStatus, distance, arrowAnimationData, loadingHeight } = this.data;
+          let touche = e.touches[0]
+          let pageY = touche.pageY
+          let moveY = pageY - this.data.startY
+          let { transitionTime, touchScrollTop, isLockUp, domHeight, upInsertDOM, upStatus, distance, arrowAnimationData, loadingHeight } = this.data
           if (moveY > 0) {
-            direction = 'down';
+            direction = 'down'
           } else if (moveY < 0) {
-            direction = 'up';
+            direction = 'up'
           }
-          let absMoveY = Math.abs(moveY);
-          //加载上方
+          let absMoveY = Math.abs(moveY)
+          // 加载上方
           if (touchScrollTop <= 0 && direction == 'down' && !isLockUp) {
-            isScroll = false;
-            let offsetY = 0;
-            let arrowAngle = 0;
+            isScroll = false
+            let offsetY = 0
+            let arrowAngle = 0
             // 如果加载区没有DOM
             if (!upInsertDOM) {
-              upInsertDOM = true;
+              upInsertDOM = true
             }
-            transitionTime = 0;
+            transitionTime = 0
             // 下拉
             if (absMoveY <= distance) {
-              offsetY = absMoveY;
-              upStatus = 'refresh';
-              // 指定距离 < 下拉距离 < 指定距离*2
+              offsetY = absMoveY
+              upStatus = 'refresh'
+            // 指定距离 < 下拉距离 < 指定距离*2
             } else if (
               absMoveY > distance &&
               absMoveY <= distance * 2
             ) {
-              offsetY = distance + (absMoveY - distance) * 0.5;
-              upStatus = 'update';
-              // 下拉距离 > 指定距离*2
+              offsetY = distance + (absMoveY - distance) * 0.5
+              upStatus = 'update'
+            // 下拉距离 > 指定距离*2
             } else {
-              offsetY = distance + distance * 0.5 + (absMoveY - distance * 2) * 0.2;
+              offsetY = distance + distance * 0.5 + (absMoveY - distance * 2) * 0.2
             }
-            domHeight = offsetY * 0.7;//移动距离衰减
-            //箭头全部显示出来才开始运动
+            domHeight = offsetY * 0.7; // 移动距离衰减
+            // 箭头全部显示出来才开始运动
             if (absMoveY > loadingHeight) {
-              let arrowY = absMoveY - loadingHeight;
-              let arrowHeight = distance - loadingHeight;
-              arrowAngle = (arrowY > arrowHeight ? arrowHeight : arrowY) / arrowHeight * 180;
+              let arrowY = absMoveY - loadingHeight
+              let arrowHeight = distance - loadingHeight
+              arrowAngle = (arrowY > arrowHeight ? arrowHeight : arrowY) / arrowHeight * 180
             }
-            arrowAnimationData = arrowAnimation.rotateZ(arrowAngle).step().export();
+            arrowAnimationData = arrowAnimation.rotateZ(arrowAngle).step().export()
           } else {
-            isScroll = true;
-            domHeight = 0;
-            moveY = 0;
+            isScroll = true
+            domHeight = 0
+            moveY = 0
           }
-          this.setData({ isScroll, domHeight, moveY, direction, upInsertDOM, upStatus, transitionTime, arrowAnimationData });
+          this.setData({ isScroll, domHeight, moveY, direction, upInsertDOM, upStatus, transitionTime, arrowAnimationData})
         }
       }
     },
@@ -169,132 +207,132 @@ Component({
      * 结束拖动(开始执行刷新)
      */
     endHandle(e) {
-      let { loading, open, moveY, domHeight, upStatus, transitionTime, touchScrollTop, direction, isLockUp, distance, loadingHeight } = this.data;
+      let { loading, open, moveY, domHeight, upStatus, transitionTime, touchScrollTop, direction, isLockUp, distance, loadingHeight } = this.data
       if (!loading && (open == 'down' || open == 'all')) {
-        let absMoveY = Math.abs(moveY);
+        let absMoveY = Math.abs(moveY)
         if (touchScrollTop <= 0 && direction == 'down' && !isLockUp) {
-          transitionTime = 300;
+          transitionTime = 300
           if (absMoveY > distance) {
-            domHeight = loadingHeight;//刷新过程中loading区域高度
-            upStatus = 'load';
-            this.refresh();
+            domHeight = loadingHeight; // 刷新过程中loading区域高度
+            upStatus = 'load'
+            this.refresh()
           } else {
-            domHeight = 0;
+            domHeight = 0
             setTimeout(() => {
-              this.setData({ upInsertDOM: false });
-            }, 300);
+              this.setData({ upInsertDOM: false })
+            }, 300)
           }
-          moveY = 0;
+          moveY = 0
         } else {
-          domHeight = 0;
-          moveY = 0;
+          domHeight = 0
+          moveY = 0
         }
       } else {
-        domHeight = 0;
-        moveY = 0;
+        domHeight = 0
+        moveY = 0
       }
-      this.setData({ moveY, domHeight, upStatus, transitionTime, isScroll: true });
+      this.setData({ moveY, domHeight, upStatus, transitionTime, isScroll: true })
     },
     /**
      * 上拉加载更多
      */
     pullUp() {
       if (!this.data.loading && (this.data.open == 'up' || this.data.open == 'all')) {
-        this.triggerEvent('pullup');
+        this.triggerEvent('pullup')
       }
     },
     /**
      * 开始显示loading
      */
     startLoad() {
-      this.setData({ loading: true, downStatus: 'load' });
+      this.setData({ loading: true, downStatus: 'load' })
     },
     /**
      * 隐藏loading
      */
     stopLoad() {
       if (this.data.downStatus != 'noData') {
-        this.setData({ loading: false, downStatus: '' });
+        this.setData({ loading: false, downStatus: '' })
       }
     },
     /**
      * 无数据
      */
     noData() {
-      this.setData({ loading: false, downStatus: 'noData' });
+      this.setData({ loading: false, downStatus: 'noData' })
     },
     /**
      * 触发刷新
      */
     refresh() {
-      let refreshCount = this.data.refreshCount + 1;
-      let startTime = Date.now();
-      this.setData({ refreshCount, startTime, loading: true });
-      this.triggerEvent('pulldown');
+      let refreshCount = this.data.refreshCount + 1
+      let startTime = Date.now()
+      this.setData({ refreshCount, startTime, loading: true })
+      this.triggerEvent('pulldown')
     },
     /**
      * 停止下拉刷新
      */
     stop() {
-      let time = Date.now() - this.data.startTime;
+      let time = Date.now() - this.data.startTime
       if (time < 600) {
         setTimeout(() => {
-          this.resetload();
-        }, 600 - time);
+          this.resetload()
+        }, 600 - time)
       } else {
-        this.resetload();
+        this.resetload()
       }
     },
     /**
      * 锁定
      */
     lock(direction) {
-      let { isLockDown, isLockUp } = this.data;
+      let { isLockDown, isLockUp } = this.data
       switch (direction) {
         case 'up':
-          isLockUp = true;
-          break;
+          isLockUp = true
+          break
         case 'down':
-          isLockDown = true;
-          break;
+          isLockDown = true
+          break
         default:
-          isLockUp = true;
-          isLockDown = true;
+          isLockUp = true
+          isLockDown = true
       }
-      this.setData({ isLockDown, isLockUp });
+      this.setData({ isLockDown, isLockUp})
     },
     /**
      * 解锁
      */
     unlock(direction) {
-      let { isLockDown, isLockUp } = this.data;
+      let { isLockDown, isLockUp } = this.data
       switch (direction) {
         case 'up':
-          isLockUp = false;
-          break;
+          isLockUp = false
+          break
         case 'down':
-          isLockDown = false;
-          break;
+          isLockDown = false
+          break
         default:
-          isLockUp = false;
-          isLockDown = false;
+          isLockUp = false
+          isLockDown = false
       }
-      this.setData({ isLockDown, isLockUp });
+      this.setData({ isLockDown, isLockUp})
     },
     /**
      * 重置
      */
     resetload() {
-      let { upInsertDOM } = this.data;
+      let { upInsertDOM } = this.data
       if (this.data.direction == 'down' && upInsertDOM) {
-        this.setData({ domHeight: 0 });
+        this.setData({ domHeight: 0 })
         setTimeout(() => {
-          upInsertDOM = false;
-          let loading = false;
-          let isScroll = true;
-          let upStatus = '';
-          this.setData({ loading, upInsertDOM, isScroll, upStatus });
-        }, 300);
+          upInsertDOM = false
+          let loading = false
+          let isScroll = true
+          let upStatus = ''
+          this.setData({ loading, upInsertDOM, isScroll, upStatus})
+        }, 300)
       }
     }
   },
@@ -302,7 +340,7 @@ Component({
     arrowAnimation = wx.createAnimation({
       duration: 0,
       timingFunction: 'ease',
-      transformOrigin: "50% 50%"
-    });
+      transformOrigin: '50% 50%'
+    })
   }
 })
