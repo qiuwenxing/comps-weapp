@@ -158,6 +158,27 @@
 	top: -.16em
 }
 
+/** 这是top的css */
+.top-load {
+  position: fixed;
+  z-index: 13;
+  bottom: 180rpx;
+  right: 30rpx;
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.top-load text {
+  position: fixed;
+  text-align: center;
+  z-index: 13;
+  bottom: 180rpx;
+  right: 50rpx;
+  color: #495060;
+  font-size: 16rpx;
+}
+
+
 @keyframes btn-spin {
 	0% {
 		transform: rotate(0)

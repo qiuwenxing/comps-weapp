@@ -1,4 +1,4 @@
-<scroll-view class="i-class scroll-v" scroll-y="{{isScroll}}" enable-back-to-top scroll-with-animation bindscrolltolower="pullUp"
+<scroll-view class="i-class scroll-v" scroll-y="{{isScroll}}"  scroll-top="{{scrollTop.scroll_top}}" scroll-with-animation bindscrolltolower="pullUp"
   bindscroll="onScroll">
   <view class="scroll-container" bindtouchstart="startHandle" bindtouchmove="moveHandle" bindtouchend="endHandle">
     <view wx:if="{{open == 'down' || open == 'all'}}" class="dropload-up" style="height:{{domHeight}}px; transition: all {{transitionTime}}ms;">
@@ -24,3 +24,6 @@
     </block>
   </view>
 </scroll-view>
+<image class="top-load" src="./images/top-scroll.png" wx:if="{{scrollTop.goTop_show}}" catchtap="goTopFun">
+  <text>返回顶部</text>
+</image>
