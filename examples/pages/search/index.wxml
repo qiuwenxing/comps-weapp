@@ -1,0 +1,3 @@
+<button bind:tap="openSearch">打开搜索</button>
+<button bind:tap="openSearch" data-value="司马光">带参数打开搜索</button>
+<x-search id="search" key="case-search" radius="36" placeholder="搜索名称" bind:search="onSearch" />

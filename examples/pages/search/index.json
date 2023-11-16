@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+      "x-search": "../../dist/search/index"
+    }
+}

@@ -1,0 +1,14 @@
+<x-touch-view
+bind:touchleftmove="onTouchleftmove"
+bind:touchrightmove="onTouchrightmove"
+bind:touchupmove="onTouchupmove"
+bind:touchdownmove="onTouchdownmove"
+bind:touchleftend="onTouchleftend"
+bind:touchrightend="onTouchrightend"
+bind:touchupend="onTouchupend"
+bind:touchdownend="onTouchdownend"
+bind:touchendx="onTouchendx"
+bind:touchendy="onTouchendy"
+>
+<view class="area"></view>
+</x-touch-view>

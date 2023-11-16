@@ -1,0 +1,30 @@
+<view class="i-class" bind:tap="show">
+  <slot></slot>
+</view>
+<block wx:if="{{display}}">
+  <view class="shade" animation="{{animationDataShade}}" bind:tap="hide" catchtouchmove="noTouch"></view>
+  <view class="picker-body" animation="{{animationDataBody}}">
+    <view class="operate" catchtouchmove="noTouch">
+      <view class="btn cancel" bind:tap="hide">取消</view>
+      <view wx:if="{{error}}" class="msg"><text>{{errorMessage}}</text></view>
+      <view class="btn confirm {{error?'disabled':''}}" bind:tap="confirm">确认</view>
+    </view>
+    <picker-view value="{{val}}" bind:change="onChange">
+      <picker-view-column>
+        <view wx:for="{{years}}" wx:key="index" style="line-height: 50px">{{item}}年</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{months}}" wx:key="index" style="line-height: 50px">{{item}}月</view>
+      </picker-view-column>
+      <picker-view-column disabled class="line">
+        <view>至</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{years}}" wx:key="index" style="line-height: 50px">{{item}}年</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{months}}" wx:key="index" style="line-height: 50px">{{item}}月</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+</block>

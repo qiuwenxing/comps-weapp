@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+      "x-picker-region": "../../dist/picker-region/index"
+
+    }
+}

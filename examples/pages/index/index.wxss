@@ -1,0 +1,10 @@
+navigator{
+    border: #ccc solid 1px;
+    background: #F8F8F8;
+    border-radius: 8rpx;
+    text-align: center;
+    height: 96rpx;
+    line-height: 96rpx;
+    font-size: 32rpx;
+    margin-bottom: 20rpx;
+}

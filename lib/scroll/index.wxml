@@ -1,0 +1,28 @@
+<scroll-view class="i-class scroll-v" scroll-y="{{isScroll}}"	scroll-into-view="{{intoView}}" scroll-with-animation bindscrolltolower="pullUp"
+  bindscroll="onScroll">
+  <view class="scroll-container" bindtouchstart="startHandle" bindtouchmove="moveHandle" bindtouchend="endHandle">
+    <view wx:if="{{open == 'down' || open == 'all'}}" class="dropload-up" style="height:{{domHeight}}px; transition: all {{transitionTime}}ms;">
+      <view class="dropload-refresh" hidden="{{upStatus != 'refresh' && upStatus != 'update'}}">
+        <image class="animate" animation="{{arrowAnimationData}}" src="../assets/images/down-arrow.svg" />
+        <text hidden="{{upStatus!='refresh'}}">下拉刷新</text>
+        <text hidden="{{upStatus!='update'}}">释放刷新</text>
+      </view>
+      <view class="dropload-load" hidden="{{upStatus != 'load'}}">
+        <image class="dropload-runing" src="../assets/images/loading.svg" />
+        <text>加载中...</text>
+      </view>
+    </view>
+    <view id="scrollTop"></view>
+    <slot></slot>
+    <block wx:if="{{open == 'up' || open == 'all'}}">
+      <view hidden="{{downStatus == ''}}" class="dropload-down i-load-more {{ downStatus == 'load' ? '' : 'i-load-more-line' }}">
+        <view class="i-load-more-loading" wx:if="{{ downStatus == 'load' }}"></view>
+        <view class="i-load-more-tip">
+          <view wx:if="{{ downStatus == 'noData' }}">{{noDataText}}</view>
+          <view wx:elif="{{ downStatus == 'load' }}">正在加载</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</scroll-view>
+<image wx:if="{{backTopShow}}" class="back-top" src="{{backTopImage}}" bindtap="onBackTop"></image>

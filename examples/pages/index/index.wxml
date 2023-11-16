@@ -1,0 +1,15 @@
+<view>
+    <navigator url="/pages/scroll/index">scroll</navigator>
+</view>
+<view>
+    <navigator url="/pages/search/index">search</navigator>
+</view>
+<view>
+    <navigator url="/pages/picker-region/index">picker-region</navigator>
+</view>
+<view>
+    <navigator url="/pages/picker-range-month/index">picker-range-month</navigator>
+</view>
+<view>
+    <navigator url="/pages/touch-view/index">touch-view</navigator>
+</view>

@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+      "x-picker-range-month": "../../dist/picker-range-month/index"
+    }
+}

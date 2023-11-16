@@ -1,0 +1,3 @@
+<x-picker-range-month id="range" bind:change="onChange" value="{{date}}">
+  <button>选择日期区间</button>
+</x-picker-range-month>

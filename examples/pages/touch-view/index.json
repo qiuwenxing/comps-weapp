@@ -1,0 +1,5 @@
+{
+    "usingComponents": {
+      "x-touch-view": "../../dist/touch-view/index"
+    }
+}

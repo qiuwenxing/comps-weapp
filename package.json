@@ -1,0 +1,36 @@
+{
+  "name": "comps-weapp",
+  "version": "0.0.1",
+  "description": "微信小程序 UI 组件库",
+  "miniprogram": "lib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiuwenxing/comps-weapp.git"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "dev": "gulp --gulpfile build/build-dev.js",
+    "build": "gulp --gulpfile build/build-prod.js",
+    "prepare": "npm run build"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "author": "Qiu",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^4.0.1",
+    "gulp-less": "^5.0.0",
+    "gulp-pug": "^5.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "less": "^4.2.0"
+  }
+}

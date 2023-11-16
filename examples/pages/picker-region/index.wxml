@@ -1,0 +1,3 @@
+<x-picker-region containsAll regionList="{{regionList}}" value="{{region}}" bind:change="onChange">
+  <button>选择地区</button>
+</x-picker-region>

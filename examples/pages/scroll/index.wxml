@@ -1,0 +1,8 @@
+<view class="header">标题</view>
+<view class="body">
+  <x-scroll id="scroll" open="all" backTopVisible="true" noDataText="暂无更多数据~" bind:pulldown="onPullDown" bind:pullup="onPullUp">
+      <view class="scroll-item" wx:for="{{list}}" wx:key="unique">
+      {{item.id}}: {{item.unique}}
+      </view>
+  </x-scroll>
+</view>
