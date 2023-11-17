@@ -12,7 +12,7 @@
 ```
 npm i comps-weapp 
 ```
-# 其他安装方法方法
+# 其他安装方法
 到 [GitHub](https://github.com/qiuwenxing/comps-weapp) 下载源代码，将 lib 目录拷贝到自己的项目中。然后按照如下的方式使用组件，以 `scroll` 为例
 1. 添加需要的组件。在页面的 json 中配置（路径根据自己项目位置配置）：
 
