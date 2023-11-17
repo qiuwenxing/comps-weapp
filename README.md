@@ -36,7 +36,7 @@ npm i comps-weapp
 
 在页面或组件中json文件的usingComponents下引入scroll
 ``` json
-usingComponents:{
+"usingComponents":{
 	"x-scroll":"comps-weapp/scroll/index"
 }
 ```
@@ -134,7 +134,7 @@ Page({
 
  在页面或组件中json文件的usingComponents下引入search
  ``` json
- usingComponents:{
+ "usingComponents":{
  	"x-search":"comps-weapp/search/index"
  }
  ```
@@ -200,7 +200,7 @@ Page({
  
  在页面或组件中json文件的usingComponents下引入picker-region
  ``` json
- usingComponents:{
+ "usingComponents":{
  	"x-picker-region":"comps-weapp/picker-region/index"
  }
  ```
@@ -269,7 +269,7 @@ import regions from 'comps-weapp/picker-region/region-data'
  
  在页面或组件中json文件的usingComponents下引入picker-range-month
  ``` json
- usingComponents:{
+ "usingComponents":{
  	"x-picker-range-month":"comps-weapp/picker-range-month/index"
  }
  ```
@@ -334,7 +334,7 @@ import regions from 'comps-weapp/picker-region/region-data'
  
  在页面或组件中json文件的usingComponents下引入touch-view
  ``` json
- usingComponents:{
+ "usingComponents":{
  	/*假设组件放在这个路径*/
  	"x-touch-view":"comps-weapp/x-touch-view/index"
  }
