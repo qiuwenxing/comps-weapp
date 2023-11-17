@@ -3,8 +3,33 @@
 |	:-----	|	:----		|
 |	scroll	|	下拉刷新、上拉加载	|
 |	search	|	搜索组件(含记忆搜索历史功能)		|
-|	picker-region	|	省+市选择组件(解决picker省市区选择器不能只选择省市2级问题)	|
+|	picker-region	|	省+市选择组件(~~解决picker省市区选择器不能只选择省市2级问题~~，小程序最新版本picker组件已经支持通过level设置层级)	|
 |	picker-range-month	|	年月区间选择	|
+|	touch-view	|	手势事件拓展组件	|
+
+# npm 安装方法
+原生小程序npm使用方法参考[官方文档](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html)
+```
+npm i comps-weapp 
+```
+# 其他安装方法方法
+到 [GitHub](https://github.com/qiuwenxing/comps-weapp) 下载源代码，将 lib 目录拷贝到自己的项目中。然后按照如下的方式使用组件，以 `scroll` 为例
+1. 添加需要的组件。在页面的 json 中配置（路径根据自己项目位置配置）：
+
+```json
+"usingComponents": {
+    "x-scroll": "/lib/scroll/index"
+}
+```
+2. 在 wxml 中使用组件：
+```html
+<x-scroll id="scroll" open="all" bind:pulldown="onPullDown" bind:pullup="onPullUp">
+  <!-- 这里写你的列表代码 -->
+</x-scroll>
+```
+
+## 组件使用方法可参考[examples](https://github.com/qiuwenxing/comps-weapp/tree/master/examples)
+
 
 ## scroll使用说明
 <img src="./assets/scroll.png">
@@ -12,8 +37,7 @@
 在页面或组件中json文件的usingComponents下引入scroll
 ``` json
 usingComponents:{
-	/*假设组件放在这个路径*/
-	"x-scroll":"/lib/scroll/index"
+	"x-scroll":"comps-weapp/scroll/index"
 }
 ```
 ``` javascript
@@ -28,7 +52,7 @@ Page({
 	}
 })
 ```
-在template中使用
+在template中使用,`注意scroll组件的父元素的高度必须是固定值或者100%,否则上拉加载更多可能不会生效`
 ```html
 	<x-scroll id="scroll" open="all" bind:pulldown="onPullDown" bind:pullup="onPullUp">
 		<!-- 这里写你的列表代码 -->
@@ -111,8 +135,7 @@ Page({
  在页面或组件中json文件的usingComponents下引入search
  ``` json
  usingComponents:{
- 	/*假设组件放在这个路径*/
- 	"x-search":"/lib/search/index"
+ 	"x-search":"comps-weapp/search/index"
  }
  ```
  ``` javascript
@@ -178,13 +201,12 @@ Page({
  在页面或组件中json文件的usingComponents下引入picker-region
  ``` json
  usingComponents:{
- 	/*假设组件放在这个路径*/
- 	"x-picker-region":"/lib/components/picker-region/index"
+ 	"x-picker-region":"comps-weapp/picker-region/index"
  }
  ```
  ``` javascript
  //该数据也可用其他方式获取
-import regions from '../../dist/picker-region/region-data'
+import regions from 'comps-weapp/picker-region/region-data'
  Page({
 	 data:{
 		/**
@@ -248,8 +270,7 @@ import regions from '../../dist/picker-region/region-data'
  在页面或组件中json文件的usingComponents下引入picker-range-month
  ``` json
  usingComponents:{
- 	/*假设组件放在这个路径*/
- 	"x-picker-range-month":"/lib/picker-range-month/index"
+ 	"x-picker-range-month":"comps-weapp/picker-range-month/index"
  }
  ```
  ``` javascript
@@ -315,7 +336,7 @@ import regions from '../../dist/picker-region/region-data'
  ``` json
  usingComponents:{
  	/*假设组件放在这个路径*/
- 	"x-touch-view":"/lib/x-touch-view/index"
+ 	"x-touch-view":"comps-weapp/x-touch-view/index"
  }
  ```
  ``` javascript

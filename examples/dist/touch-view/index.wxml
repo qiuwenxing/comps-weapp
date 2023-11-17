@@ -1,0 +1,3 @@
+<view class="i-class" bind:touchstart="touchstart" bind:touchmove="touchmove" bind:touchend="touchend">
+  <slot></slot>
+</view>

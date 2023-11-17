@@ -1,6 +1,6 @@
 {
   "name": "comps-weapp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "微信小程序 UI 组件库",
   "miniprogram": "lib",
   "repository": {

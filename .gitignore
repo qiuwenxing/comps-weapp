@@ -16,9 +16,8 @@ npm-debug.log
 *.swp
 *.swo
 *.log
-examples/dist/
 yarn-error.log
 test/unit/coverage
 examples/project.config.json
 .vscode
-dist
+/dist
